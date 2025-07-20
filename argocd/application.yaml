@@ -4,7 +4,9 @@ metadata:
   name: rollout-demo
   namespace: argocd
   annotations:
-    notifications.argoproj.io/subscribe.github: "paulovitorcl/argocd-rollout-demo"
+    notifications.argoproj.io/subscribe.on-deployed.github: "paulovitorcl/argocd-rollout-demo"
+    notifications.argoproj.io/subscribe.on-health-degraded.github: "paulovitorcl/argocd-rollout-demo"
+    notifications.argoproj.io/subscribe.on-sync-running.github: "paulovitorcl/argocd-rollout-demo"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
