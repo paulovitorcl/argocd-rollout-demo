@@ -1,0 +1,30 @@
+name: Deploy to Argo CD
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '.github/workflows/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Create GitHub Deployment
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        curl -X POST https://api.github.com/repos/${{ github.repository }}/deployments \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github+json" \
+          -d '{
+            "ref": "${{ github.sha }}",
+            "environment": "production",
+            "description": "Argo CD deployment triggered",
+            "required_contexts": [],
+            "auto_merge": false
+          }'
