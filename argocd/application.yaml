@@ -4,11 +4,10 @@ metadata:
   name: rollout-demo
   namespace: argocd
   annotations:
-    notifications.argoproj.io/subscribe.on-deployed.github: "paulovitorcl/argocd-rollout-demo"
-    notifications.argoproj.io/subscribe.on-health-degraded.github: "paulovitorcl/argocd-rollout-demo"
-    notifications.argoproj.io/subscribe.on-sync-running.github: "paulovitorcl/argocd-rollout-demo"
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+    notifications.argoproj.io/subscribe.on-deployed.github: ""
+    notifications.argoproj.io/subscribe.on-health-degraded.github: ""
+    notifications.argoproj.io/subscribe.on-sync-failed.github: ""
+    notifications.argoproj.io/subscribe.on-sync-running.github: ""
 spec:
   project: default
   source:
@@ -19,8 +18,5 @@ spec:
     server: https://kubernetes.default.svc
     namespace: default
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
     syncOptions:
     - CreateNamespace=true
