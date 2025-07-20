@@ -15,6 +15,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Create GitHub Deployment
+      id: create_deployment
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
       run: |
@@ -28,3 +29,17 @@ jobs:
             "required_contexts": [],
             "auto_merge": false
           }'
+
+    # - name: Patch ArgoCD Application
+    #   run: |
+    #     curl -X PATCH https://your-argocd-server/api/v1/applications/YOUR_APP_NAME \
+    #       -H "Authorization: Bearer $ARGOCD_TOKEN" \
+    #       -H "Content-Type: application/json" \
+    #       -d '{
+    #         "metadata": {
+    #           "annotations": {
+    #             "notifications.argoproj.io/github-deployment-id": "'"${{ steps.create_deployment.outputs.deployment_id }}"'"
+    #           }
+    #         }
+    #       }'
+    # SYNC the application :)
