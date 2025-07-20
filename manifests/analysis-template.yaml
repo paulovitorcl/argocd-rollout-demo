@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: success-rate
+  namespace: default
+spec:
+  metrics:
+  - name: success-rate
+    interval: 5s
+    successCondition: result >= 0.95
+    provider:
+      prometheus:
+        address: http://prometheus:9090
+        query: |
+          sum(rate(
+            http_requests_total{job="rollout-demo",status=~"2.."}[5m]
+          )) / 
+          sum(rate(
+            http_requests_total{job="rollout-demo"}[5m]
+          ))
